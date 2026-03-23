@@ -1,0 +1,72 @@
+.footer-ui {
+  position: absolute;
+  bottom: 50px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 300;
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.35s ease, transform 0.35s ease;
+}
+
+.footer-ui.hidden {
+  opacity: 0;
+  transform: translateY(20px);
+  pointer-events: none;
+}
+
+.tab-group {
+  display: flex;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 4px;
+  overflow: hidden;
+  backdrop-filter: blur(10px);
+}
+
+.tab {
+  padding: 12px 35px;
+  font-size: 14px;
+  cursor: pointer;
+  color: rgba(255, 255, 255, 0.5);
+  transition: color 0.2s, background 0.2s;
+  user-select: none;
+}
+
+.tab.active {
+  background: #003a4d;
+  color: white;
+}
+
+.tab:hover:not(.active) {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.rotate-status {
+  position: absolute;
+  right: 50px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  padding: 8px 18px;
+  border-radius: 8px;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  white-space: nowrap;
+  transition: opacity 0.2s;
+}
+
+.rotate-status:hover {
+  opacity: 0.8;
+}
+
+.rotate-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

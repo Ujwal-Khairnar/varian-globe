@@ -1,0 +1,24 @@
+.header-branding {
+  position: absolute;
+  top: 40px;
+  right: 60px;
+  text-align: right;
+  z-index: 100;
+}
+
+.main-logo {
+  font-size: 52px;
+  font-weight: 700;
+  letter-spacing: -2px;
+  line-height: 0.9;
+  color: white;
+}
+
+.sub-logo {
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  opacity: 0.7;
+  margin-top: 8px;
+  color: white;
+}
