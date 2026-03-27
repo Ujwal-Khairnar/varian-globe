@@ -1,0 +1,366 @@
+.sd-scene {
+  position: absolute;
+  inset: 0;
+  background: #000;
+  display: flex;
+  flex-direction: column;
+  z-index: 60;
+  animation: sdFadeIn 0.3s ease;
+  overflow: hidden;
+}
+
+@keyframes sdFadeIn {
+  from { opacity: 0; transform: scale(0.97); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+/* ── Close button ─────────────────────────────────────── */
+.sd-close {
+  position: absolute;
+  top: 24px;
+  right: 36px;
+  background: none;
+  border: none;
+  color: #00c8ff;
+  font-size: 22px;
+  cursor: pointer;
+  z-index: 10;
+  opacity: 0.8;
+  transition: opacity 0.15s;
+  line-height: 1;
+}
+.sd-close:hover { opacity: 1; }
+
+/* ── Top: icon + title + subtitle ─────────────────────── */
+.sd-top {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 24px;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.sd-icon-wrap {
+  width: 80px;
+  height: 80px;
+}
+
+.sd-name {
+  font-size: 26px;
+  font-weight: 700;
+  color: #00c8ff;
+  margin: 0;
+  text-align: center;
+}
+
+.sd-subtitle {
+  font-size: 13px;
+  color: rgba(255,255,255,0.6);
+  margin: 0;
+  text-align: center;
+  max-width: 680px;
+  line-height: 1.4;
+}
+
+/* ── Dividers ──────────────────────────────────────────── */
+.sd-dividers {
+  display: flex;
+  gap: 16px;
+  padding: 0 40px;
+  margin: 10px 0 0;
+  flex-shrink: 0;
+}
+
+.sd-divider-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(0,200,255,0.6), transparent);
+}
+
+/* ── MAIN CONTENT AREA ────────────────────────────────── */
+.sd-content {
+  flex: 1;
+  display: flex;
+  overflow: hidden;
+  padding: 16px 32px 0;
+  gap: 0;
+  min-height: 0;
+}
+
+/* ── FEATURE LAYOUT ───────────────────────────────────── */
+
+/* Left: feature list */
+.sd-feature-list {
+  width: 290px;
+  flex-shrink: 0;
+  display: flex;
+  gap: 6px;
+  overflow: hidden;
+}
+
+.sd-feature-scroll {
+  flex: 1;
+  overflow-y: auto;
+  scrollbar-width: none;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding-right: 4px;
+}
+.sd-feature-scroll::-webkit-scrollbar { display: none; }
+
+.sd-feature-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 14px;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.1);
+  background: rgba(255,255,255,0.03);
+  color: rgba(255,255,255,0.65);
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+
+.sd-feature-item:hover {
+  background: rgba(0,100,150,0.3);
+  border-color: rgba(0,200,255,0.4);
+  color: white;
+}
+
+.sd-feature-item.active {
+  background: rgba(0,80,130,0.55);
+  border-color: #00c8ff;
+  color: white;
+  font-weight: 600;
+}
+
+.sd-feature-item svg {
+  flex-shrink: 0;
+  color: #00c8ff;
+}
+
+/* Feature scrollbar indicator */
+.sd-feature-scrollbar {
+  width: 4px;
+  background: rgba(255,255,255,0.08);
+  border-radius: 2px;
+  position: relative;
+  flex-shrink: 0;
+  height: 100%;
+}
+
+.sd-feature-scrollthumb {
+  width: 4px;
+  height: 48px;
+  background: #00c8ff;
+  border-radius: 2px;
+  position: absolute;
+  left: 0;
+  transition: top 0.3s ease;
+}
+
+/* Right: feature content card */
+.sd-content-area {
+  flex: 1;
+  padding-left: 28px;
+  display: flex;
+  align-items: stretch;
+  overflow: hidden;
+}
+
+.sd-content-card {
+  width: 100%;
+  background: rgba(0, 40, 70, 0.45);
+  border: 1.5px solid rgba(0, 200, 255, 0.25);
+  border-radius: 14px;
+  padding: 32px 36px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  overflow-y: auto;
+  scrollbar-width: none;
+  animation: contentFade 0.25s ease;
+}
+.sd-content-card::-webkit-scrollbar { display: none; }
+
+@keyframes contentFade {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.sd-feature-heading {
+  font-size: 22px;
+  font-weight: 700;
+  color: #00c8ff;
+  margin: 0;
+  line-height: 1.25;
+}
+
+.sd-feature-body {
+  font-size: 14px;
+  color: rgba(255,255,255,0.78);
+  line-height: 1.7;
+  margin: 0;
+}
+
+.sd-feature-divider {
+  height: 1px;
+  background: rgba(0,200,255,0.2);
+  flex-shrink: 0;
+}
+
+/* Bullet list inside feature card */
+.sd-feature-bullets {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.sd-feature-bullets li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 13px;
+  color: rgba(255,255,255,0.82);
+  line-height: 1.5;
+}
+
+.sd-bullet-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #00c8ff;
+  flex-shrink: 0;
+  margin-top: 5px;
+}
+
+/* ── DELIVERABLES LAYOUT ──────────────────────────────── */
+.sd-deliverables {
+  gap: 0;
+}
+
+.sd-deliverables-left {
+  flex: 1;
+  padding-right: 28px;
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+.sd-deliverables-left::-webkit-scrollbar { display: none; }
+
+.sd-section-label {
+  font-size: 18px;
+  font-weight: 700;
+  color: white;
+  margin: 0 0 16px;
+}
+
+.sd-bullet-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.sd-bullet-list li {
+  font-size: 14px;
+  color: rgba(255,255,255,0.85);
+  line-height: 1.55;
+  padding-left: 20px;
+  position: relative;
+  font-weight: 600;
+}
+
+.sd-bullet-list li::before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  color: #00c8ff;
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+/* Vertical divider */
+.sd-vertical-divider {
+  width: 1px;
+  background: linear-gradient(180deg, transparent, rgba(0,200,255,0.5), transparent);
+  margin: 0 28px;
+  flex-shrink: 0;
+}
+
+/* Right: use cases panel */
+.sd-use-cases {
+  width: 44%;
+  flex-shrink: 0;
+}
+
+.sd-use-cases-box {
+  background: rgba(0, 50, 80, 0.5);
+  border-radius: 12px;
+  padding: 24px;
+  height: 100%;
+}
+
+.sd-use-cases-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: white;
+  margin: 0 0 18px;
+  text-align: center;
+}
+
+/* ── BOTTOM NAV ───────────────────────────────────────── */
+.sd-bottom-nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  padding: 14px 40px 18px;
+  flex-shrink: 0;
+}
+
+.sd-nav-arrow {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #00c8ff;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.15s;
+  flex-shrink: 0;
+}
+.sd-nav-arrow:hover {
+  background: #00a8d8;
+  transform: scale(1.06);
+}
+
+.sd-dots {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+  max-width: 700px;
+}
+
+.sd-dot {
+  width: 36px;
+  height: 6px;
+  border-radius: 3px;
+  background: rgba(255,255,255,0.18);
+  transition: background 0.3s;
+}
+
+.sd-dot.active {
+  background: #00c8ff;
+}

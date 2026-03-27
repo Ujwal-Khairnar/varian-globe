@@ -151,3 +151,21 @@
 .ch-card.center .ch-text {
   font-size: 20px;
 }
+
+/* Base style for the card */
+.challenge-card {
+  transition: all 0.5s ease-in-out;
+  cursor: default; /* Default arrow cursor for side cards */
+  pointer-events: auto;
+}
+
+/* Change cursor to pointer ONLY for the center card */
+.challenge-card.center {
+  cursor: pointer;
+}
+
+/* Optional: add a hover effect only for center card to give feedback */
+.challenge-card.center:hover {
+  filter: brightness(1.1);
+  transform: scale(1.05); /* Slight pop effect */
+}

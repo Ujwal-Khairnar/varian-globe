@@ -1,70 +1,77 @@
-# Getting Started with Create React App
+# Varian Globe — Interactive World Map
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+An interactive globe presentation built with React and react-globe.gl.
 
-## Available Scripts
+## Features
+- **Tab 1 — What your peers have achieved**: Rotating 3D globe with clickable location pins. Click a pin to zoom in and see a hospital card with stats.
+- **Tab 2 — What challenges are you facing**: Auto-rotating 3D fan carousel of 7 challenge cards.
 
-In the project directory, you can run:
+## Tech Stack
+- React 18
+- react-globe.gl
+- CSS transitions & animations (no extra animation library)
 
-### `npm start`
+## Project Structure
+```
+src/
+├── App.js                          # Root — tab routing only
+├── App.css                         # Global styles
+├── data/
+│   ├── locations.js                # Globe pin data
+│   └── challenges.js               # Challenge card data
+├── utils/
+│   └── globe.js                    # lat/lng → pixel math + constants
+└── components/
+    ├── Branding.jsx / .css         # Top-right logo
+    ├── Footer.jsx / .css           # Bottom tab bar + rotate button
+    ├── globe/
+    │   ├── GlobeTab.jsx            # Globe tab — all zoom/nav state
+    │   ├── GlobeView.jsx           # Globe canvas + React pin overlay
+    │   ├── LocationCard.jsx        # Slide-in popup card
+    │   ├── DetailNav.jsx           # Back / prev / next buttons
+    │   └── globe.css
+    └── challenges/
+        ├── ChallengesTab.jsx       # Carousel logic + auto-rotate
+        ├── ChallengeCard.jsx       # Single card in the fan
+        ├── ChallengeIcon.jsx       # 7 SVG icons
+        └── challenges.css
+```
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Getting Started
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### Prerequisites
+- Node.js v16 or higher
+- npm v8 or higher
 
-### `npm test`
+### Installation & Run
+```bash
+# 1. Clone the repo
+git clone https://github.com/YOUR_USERNAME/YOUR_REPO_NAME.git
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+# 2. Go into the project folder
+cd YOUR_REPO_NAME
 
-### `npm run build`
+# 3. Install dependencies
+npm install
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+# 4. Start the development server
+npm start
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+App opens at **http://localhost:3000**
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Adding New Locations
+Edit `src/data/locations.js` — add a new object to the array:
+```js
+{
+  lat: 19.07,
+  lng: 72.87,
+  name: "Tata Memorial Hospital, Mumbai",
+  image: "https://your-image-url.jpg",
+  stat: "320 fields",
+  statDesc: "no longer need completion",
+}
+```
 
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## Adding New Challenges
+Edit `src/data/challenges.js` — add a new object and a matching icon case in `ChallengeIcon.jsx`.
