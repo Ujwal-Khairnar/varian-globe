@@ -9,12 +9,12 @@
   z-index: 10;
 }
 
-/* Page title — top-left, matches hero-title style */
+/* Page title */
 .challenge-title {
   position: absolute;
-  top: 36px;
-  left: 56px;
-  font-size: 38px;
+  top: clamp(16px, 2.5vh, 36px);
+  left: clamp(20px, 3.5vw, 56px);
+  font-size: clamp(20px, 2.8vw, 38px);
   font-weight: 800;
   color: white;
   margin: 0;
@@ -25,7 +25,7 @@
 .ch-carousel {
   position: relative;
   width: 100vw;
-  height: 520px;
+  height: clamp(360px, 48vh, 520px);
   perspective: 1200px;
   display: flex;
   align-items: center;
@@ -35,25 +35,22 @@
 /* ── Base card styles ─────────────────────────────── */
 .ch-card {
   position: absolute;
-  width: 300px;
-  min-height: 420px;
+  width: clamp(200px, 21vw, 300px);
+  min-height: clamp(280px, 38vh, 420px);
   background: #071624;
   border: 1.5px solid rgba(0, 200, 255, 0.35);
   border-radius: 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 32px 24px 28px;
+  padding: clamp(18px, 2.5vh, 32px) clamp(14px, 1.5vw, 24px) clamp(16px, 2vh, 28px);
   cursor: pointer;
-  /* Smooth transition for all positional changes */
   transition: all 0.6s cubic-bezier(0.22, 1, 0.36, 1);
   will-change: transform, opacity;
   user-select: none;
 }
 
 /* ── Card position classes ────────────────────────── */
-
-/* Center: front and center, full size, full opacity */
 .ch-card.center {
   transform: translateX(0) scale(1) rotateY(0deg);
   opacity: 1;
@@ -65,35 +62,30 @@
     0 16px 40px rgba(0, 0, 0, 0.6);
 }
 
-/* Side 1: immediately left of center */
 .ch-card.side1.left1 {
-  transform: translateX(-340px) scale(0.88) rotateY(12deg);
+  transform: translateX(clamp(-260px, -23.5vw, -340px)) scale(0.88) rotateY(12deg);
   opacity: 0.65;
   z-index: 8;
 }
 
-/* Side 1: immediately right of center */
 .ch-card.side1.right1 {
-  transform: translateX(340px) scale(0.88) rotateY(-12deg);
+  transform: translateX(clamp(260px, 23.5vw, 340px)) scale(0.88) rotateY(-12deg);
   opacity: 0.65;
   z-index: 8;
 }
 
-/* Side 2: far left */
 .ch-card.side2.left2 {
-  transform: translateX(-620px) scale(0.74) rotateY(20deg);
+  transform: translateX(clamp(-460px, -43vw, -620px)) scale(0.74) rotateY(20deg);
   opacity: 0.35;
   z-index: 6;
 }
 
-/* Side 2: far right */
 .ch-card.side2.right2 {
-  transform: translateX(620px) scale(0.74) rotateY(-20deg);
+  transform: translateX(clamp(460px, 43vw, 620px)) scale(0.74) rotateY(-20deg);
   opacity: 0.35;
   z-index: 6;
 }
 
-/* Hidden: off screen, invisible */
 .ch-card.hidden {
   opacity: 0;
   pointer-events: none;
@@ -103,35 +95,34 @@
 
 /* ── Icon circle ──────────────────────────────────── */
 .ch-icon-wrap {
-  width: 100px;
-  height: 100px;
+  width: clamp(64px, 7vw, 100px);
+  height: clamp(64px, 7vw, 100px);
   border-radius: 50%;
   background: rgba(0, 80, 140, 0.5);
   border: 2px solid rgba(0, 200, 255, 0.4);
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 28px;
+  margin-bottom: clamp(16px, 2vh, 28px);
   flex-shrink: 0;
 }
 
 /* ── "— CHALLENGE —" label ────────────────────────── */
 .ch-label {
-  font-size: 11px;
+  font-size: clamp(9px, 0.75vw, 11px);
   letter-spacing: 0.22em;
   color: rgba(255, 255, 255, 0.45);
-  margin-bottom: 20px;
+  margin-bottom: clamp(12px, 1.5vh, 20px);
   text-transform: uppercase;
   position: relative;
 }
 
-/* Decorative lines on either side of the label */
 .ch-label::before,
 .ch-label::after {
   content: "";
   position: absolute;
   top: 50%;
-  width: 28px;
+  width: clamp(16px, 1.8vw, 28px);
   height: 1px;
   background: rgba(255, 255, 255, 0.25);
 }
@@ -140,32 +131,48 @@
 
 /* ── Challenge text ───────────────────────────────── */
 .ch-text {
-  font-size: 18px;
+  font-size: clamp(13px, 1.2vw, 18px);
   font-weight: 700;
   text-align: center;
   line-height: 1.35;
   color: #fff;
 }
 
-/* Center card gets slightly larger text */
 .ch-card.center .ch-text {
-  font-size: 20px;
+  font-size: clamp(14px, 1.4vw, 20px);
 }
 
-/* Base style for the card */
+/* Legacy classes kept for compatibility */
 .challenge-card {
   transition: all 0.5s ease-in-out;
-  cursor: default; /* Default arrow cursor for side cards */
+  cursor: default;
   pointer-events: auto;
 }
 
-/* Change cursor to pointer ONLY for the center card */
 .challenge-card.center {
   cursor: pointer;
 }
 
-/* Optional: add a hover effect only for center card to give feedback */
 .challenge-card.center:hover {
   filter: brightness(1.1);
-  transform: scale(1.05); /* Slight pop effect */
+  transform: scale(1.05);
+}
+
+/* ── Small screen adjustments ─────────────────────── */
+@media (max-width: 768px) {
+  .ch-card.side2.left2,
+  .ch-card.side2.right2 {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .ch-card.side1.left1 {
+    transform: translateX(-55vw) scale(0.82) rotateY(12deg);
+    opacity: 0.5;
+  }
+
+  .ch-card.side1.right1 {
+    transform: translateX(55vw) scale(0.82) rotateY(-12deg);
+    opacity: 0.5;
+  }
 }

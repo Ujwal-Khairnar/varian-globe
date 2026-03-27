@@ -18,12 +18,12 @@
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  padding: 36px 56px 0;
+  padding: clamp(18px, 3vh, 36px) clamp(20px, 4vw, 56px) 0;
   flex-shrink: 0;
 }
 
 .sg-title {
-  font-size: 48px;
+  font-size: clamp(28px, 3.8vw, 48px);
   font-weight: 800;
   color: white;
   margin: 0;
@@ -34,7 +34,7 @@
 }
 
 .sg-logo {
-  font-size: 42px;
+  font-size: clamp(26px, 3.2vw, 42px);
   font-weight: 700;
   letter-spacing: -2px;
   color: white;
@@ -42,7 +42,7 @@
 }
 
 .sg-logo-sub {
-  font-size: 11px;
+  font-size: clamp(9px, 0.75vw, 11px);
   text-transform: uppercase;
   letter-spacing: 0.08em;
   opacity: 0.7;
@@ -54,9 +54,9 @@
 .sg-scroll-area {
   flex: 1;
   overflow-y: auto;
-  padding: 28px 56px 20px;
+  padding: clamp(14px, 2vh, 28px) clamp(20px, 4vw, 56px) clamp(10px, 1.5vh, 20px);
   display: flex;
-  gap: 20px;
+  gap: clamp(10px, 1.2vw, 20px);
   scrollbar-width: none;
   position: relative;
 }
@@ -68,7 +68,7 @@
   flex: 1;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
+  gap: clamp(10px, 1.4vw, 20px);
   align-content: start;
 }
 
@@ -78,14 +78,14 @@
   background: rgba(0, 70, 110, 0.5);
   border: 1.5px solid rgba(0, 200, 255, 0.4);
   border-radius: 14px;
-  padding: 32px 20px 24px;
+  padding: clamp(18px, 2.5vh, 32px) clamp(12px, 1.4vw, 20px) clamp(14px, 2vh, 24px);
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 16px;
+  gap: clamp(8px, 1.2vh, 16px);
   cursor: pointer;
   transition: background 0.2s, border-color 0.2s, transform 0.15s, box-shadow 0.2s;
-  min-height: 180px;
+  min-height: clamp(120px, 14vh, 180px);
 }
 
 .sg-card:hover {
@@ -106,15 +106,15 @@
 /* AOS badge */
 .sg-aos-badge {
   position: absolute;
-  top: 12px;
-  right: 12px;
+  top: clamp(8px, 0.9vh, 12px);
+  right: clamp(8px, 0.9vw, 12px);
   background: rgba(0,0,0,0.5);
   border: 1px solid rgba(0,200,255,0.5);
   border-radius: 6px;
-  font-size: 11px;
+  font-size: clamp(9px, 0.75vw, 11px);
   font-weight: 700;
   color: white;
-  padding: 3px 8px;
+  padding: 3px clamp(5px, 0.6vw, 8px);
   letter-spacing: 0.05em;
 }
 
@@ -125,7 +125,7 @@
 }
 
 .sg-card-name {
-  font-size: 16px;
+  font-size: clamp(12px, 1.1vw, 16px);
   font-weight: 700;
   color: white;
   text-align: center;
@@ -143,7 +143,7 @@
 
 .sg-scroll-thumb {
   width: 6px;
-  height: 80px;
+  height: clamp(50px, 8vh, 80px);
   background: #00c8ff;
   border-radius: 3px;
   position: absolute;
@@ -154,21 +154,21 @@
 .sg-legal {
   display: flex;
   align-items: center;
-  gap: 20px;
-  padding: 10px 40px 14px;
+  gap: clamp(10px, 1.5vw, 20px);
+  padding: clamp(7px, 1vh, 10px) clamp(20px, 3vw, 40px) clamp(10px, 1.5vh, 14px);
   border-top: 1px solid rgba(255,255,255,0.08);
   flex-shrink: 0;
 }
 
 .sg-legal-nav {
   display: flex;
-  gap: 10px;
+  gap: clamp(6px, 0.8vw, 10px);
   flex-shrink: 0;
 }
 
 .sg-icon-btn {
-  width: 38px;
-  height: 38px;
+  width: clamp(30px, 2.8vw, 38px);
+  height: clamp(30px, 2.8vw, 38px);
   border-radius: 50%;
   background: rgba(0,0,0,0.5);
   border: 1px solid rgba(255,255,255,0.2);
@@ -182,8 +182,21 @@
 .sg-icon-btn:hover { background: rgba(255,255,255,0.12); }
 
 .sg-legal-text {
-  font-size: 10px;
+  font-size: clamp(8px, 0.65vw, 10px);
   color: rgba(255,255,255,0.45);
   line-height: 1.5;
   margin: 0;
+}
+
+/* ── Responsive grid adjustments ── */
+@media (max-width: 900px) {
+  .sg-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 560px) {
+  .sg-grid {
+    grid-template-columns: 1fr;
+  }
 }

@@ -1,6 +1,6 @@
 import React from "react";
 import Globe from "react-globe.gl";
-import { latLngToXY, GLOBE_SIZE } from "../../utils/globe";
+import { latLngToXY, getGlobeSize } from "../../utils/globe";
 import "./globe.css";
 
 /**
@@ -10,23 +10,25 @@ import "./globe.css";
  *   globeRef     {ref}      - forwarded ref so parent can call globe methods
  *   pov          {object}   - current { lat, lng, altitude } from rAF poll
  *   activeIndex  {number}   - index of the selected pin (or null)
+ *   isZoomed     {boolean}  - true when a pin is active (changes globe size/position)
  *   locations    {array}    - LOCATIONS data array
  *   onPinClick   {function} - called with pin index when a pin is clicked
  */
-function GlobeView({ globeRef, pov, activeIndex, locations, onPinClick }) {
+function GlobeView({ globeRef, pov, activeIndex, isZoomed, locations, onPinClick }) {
+  const globeSize = getGlobeSize(isZoomed);
+
   const pinPositions = locations.map((loc) =>
-    latLngToXY(loc.lat, loc.lng, pov, GLOBE_SIZE)
+    latLngToXY(loc.lat, loc.lng, pov, globeSize)
   );
 
   return (
-    <div className="globe-viewport">
+    <div className={`globe-viewport${isZoomed ? "" : " overview"}`}>
       <div className="ambient-glow" />
 
-      {/* react-globe.gl canvas — no htmlElementsData, we use React pins instead */}
       <Globe
         ref={globeRef}
-        width={GLOBE_SIZE}
-        height={GLOBE_SIZE}
+        width={globeSize}
+        height={globeSize}
         backgroundColor="rgba(0,0,0,0)"
         globeImageUrl="https://unpkg.com/three-globe@2.30.0/example/img/earth-blue-marble.jpg"
         showAtmosphere={true}
@@ -34,11 +36,11 @@ function GlobeView({ globeRef, pov, activeIndex, locations, onPinClick }) {
         atmosphereAltitude={0.25}
       />
 
-      {/* Transparent React overlay — sits above the canvas for reliable click handling */}
+      {/* Transparent React overlay */}
       <div className="pin-overlay">
         {locations.map((loc, i) => {
           const pos = pinPositions[i];
-          if (!pos) return null; // pin is on the far side of the globe
+          if (!pos) return null;
 
           return (
             <div

@@ -3,8 +3,8 @@
   position: absolute;
   top: 5%;
   left: 4%;
-  padding-left: 80px;
-  font-size: 50px;
+  padding-left: clamp(20px, 4vw, 80px);
+  font-size: clamp(24px, 3.5vw, 50px);
   font-weight: 800;
   line-height: 1.1;
   z-index: 50;
@@ -24,13 +24,30 @@
 /* ── Globe viewport ───────────────────────────────── */
 .globe-viewport {
   position: absolute;
-  top: 46%;
-  left: 50%;
+  /* Sit it left-of-center so the globe bleeds off the left and bottom edges,
+     matching the "Image 2" look where the sphere fills the left ~60% of screen */
+  top: 50%;
+  left: 30%;
   transform: translate(-50%, -50%);
-  width: 750px;
-  height: 750px;
+  /* Make it large enough that the square canvas corners are off-screen */
+  width: max(900px, 95vh);
+  height: max(900px, 95vh);
   z-index: 10;
   filter: saturate(1.2) brightness(1.05);
+  /* Hide the square corners of the canvas */
+  overflow: hidden;
+  border-radius: 50%;
+  /* When NOT zoomed in, center it properly */
+}
+
+/* Overview state: globe centered */
+.globe-viewport.overview {
+  top: 46%;
+  left: 50%;
+  width: min(750px, 75vmin);
+  height: min(750px, 75vmin);
+  border-radius: 0;
+  overflow: visible;
 }
 
 .ambient-glow {
@@ -38,8 +55,8 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 800px;
-  height: 800px;
+  width: 110%;
+  height: 110%;
   background: radial-gradient(circle, rgba(0, 160, 255, 0.3) 0%, rgba(0, 0, 0, 0) 70%);
   border-radius: 50%;
   pointer-events: none;
@@ -51,12 +68,12 @@
   position: absolute;
   inset: 0;
   z-index: 20;
-  pointer-events: none; /* overlay is transparent — only pins receive events */
+  pointer-events: none;
 }
 
 .react-pin {
   position: absolute;
-  transform: translate(-50%, -100%); /* tip of pin on the coordinate */
+  transform: translate(-50%, -100%);
   pointer-events: all;
   cursor: pointer;
   filter: drop-shadow(0 0 9px rgba(0, 200, 255, 0.85));
@@ -72,14 +89,13 @@
   filter: drop-shadow(0 0 18px rgba(0, 220, 255, 1));
 }
 
-/* Pulse ring under each pin */
 .pin-pulse {
   position: absolute;
   top: 70%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 12px;
-  height: 12px;
+  width: clamp(8px, 1vmin, 12px);
+  height: clamp(8px, 1vmin, 12px);
   background: rgba(0, 212, 255, 0.55);
   border-radius: 50%;
   animation: pulse 2s infinite;
@@ -95,9 +111,8 @@
 .info-card {
   position: absolute;
   top: 50%;
-  right: 48px;
-  width: 340px;
-  /* Start: off-screen right, invisible */
+  right: clamp(12px, 3vw, 48px);
+  width: clamp(260px, 24vw, 340px);
   transform: translateY(-50%) translateX(80px);
   opacity: 0;
   transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1),
@@ -110,7 +125,6 @@
   z-index: 200;
 }
 
-/* Trigger: slides to final position */
 .info-card.visible {
   transform: translateY(-50%) translateX(0);
   opacity: 1;
@@ -119,8 +133,8 @@
 .card-header {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 14px 16px;
+  gap: clamp(6px, 0.7vw, 10px);
+  padding: clamp(10px, 1vh, 14px) clamp(10px, 1vw, 16px);
   border-bottom: 1px solid rgba(0, 200, 255, 0.15);
   background: #0d2538;
 }
@@ -133,7 +147,7 @@
 
 .card-title {
   flex: 1;
-  font-size: 13px;
+  font-size: clamp(11px, 0.9vw, 13px);
   font-weight: 500;
   color: #fff;
   white-space: nowrap;
@@ -145,7 +159,7 @@
   background: none;
   border: none;
   color: #00c8ff;
-  font-size: 16px;
+  font-size: clamp(13px, 1.1vw, 16px);
   cursor: pointer;
   padding: 0;
   flex-shrink: 0;
@@ -157,7 +171,7 @@
 
 .card-image {
   width: 100%;
-  height: 200px;
+  height: clamp(140px, 15vh, 200px);
   overflow: hidden;
 }
 
@@ -166,24 +180,22 @@
   height: 100%;
   object-fit: cover;
   display: block;
-  /* Zooms in slightly as card opens */
   transform: scale(1.07);
   transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
 }
 .info-card.visible .card-image img { transform: scale(1); }
 
 .card-body {
-  padding: 20px 18px 22px;
+  padding: clamp(12px, 1.5vh, 20px) clamp(12px, 1.2vw, 18px) clamp(14px, 1.8vh, 22px);
   background: #0a1f2e;
 }
 
-/* Staggered reveal for card body content */
 .card-stat {
-  font-size: 28px;
+  font-size: clamp(20px, 2.2vw, 28px);
   font-weight: 700;
   color: #00c8ff;
   line-height: 1.2;
-  margin-bottom: 6px;
+  margin-bottom: clamp(4px, 0.5vh, 6px);
   transform: translateX(-12px);
   opacity: 0;
   transition: transform 0.4s 0.12s cubic-bezier(0.22, 1, 0.36, 1),
@@ -192,9 +204,9 @@
 .info-card.visible .card-stat { transform: translateX(0); opacity: 1; }
 
 .card-stat-desc {
-  font-size: 14px;
+  font-size: clamp(11px, 1vw, 14px);
   color: rgba(255, 255, 255, 0.75);
-  margin-bottom: 20px;
+  margin-bottom: clamp(12px, 1.5vh, 20px);
   font-weight: 600;
   transform: translateX(-12px);
   opacity: 0;
@@ -206,13 +218,13 @@
 .card-cta {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: clamp(6px, 0.6vw, 8px);
   background: rgba(255, 255, 255, 0.08);
   border: 1px solid rgba(255, 255, 255, 0.2);
   color: white;
-  font-size: 13px;
+  font-size: clamp(11px, 0.9vw, 13px);
   font-weight: 500;
-  padding: 10px 20px;
+  padding: clamp(7px, 0.8vh, 10px) clamp(14px, 1.4vw, 20px);
   border-radius: 24px;
   cursor: pointer;
   width: fit-content;
@@ -224,16 +236,16 @@
 }
 .info-card.visible .card-cta { transform: translateY(0); opacity: 1; }
 .card-cta:hover { background: rgba(255, 255, 255, 0.15); }
-.card-cta span { font-size: 18px; line-height: 1; color: rgba(255, 255, 255, 0.6); }
+.card-cta span { font-size: clamp(14px, 1.3vw, 18px); line-height: 1; color: rgba(255, 255, 255, 0.6); }
 
 /* ── Detail navigation ────────────────────────────── */
 .detail-nav {
   position: absolute;
-  bottom: 44px;
-  left: 48px;
+  bottom: clamp(20px, 3vh, 44px);
+  left: clamp(20px, 3vw, 48px);
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: clamp(8px, 0.8vw, 12px);
   z-index: 200;
   animation: fadeUp 0.4s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
@@ -246,13 +258,13 @@
 .back-btn {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: clamp(5px, 0.6vw, 8px);
   background: rgba(0, 0, 0, 0.65);
   border: 1px solid rgba(255, 255, 255, 0.3);
   color: white;
-  font-size: 13px;
+  font-size: clamp(11px, 0.9vw, 13px);
   font-weight: 600;
-  padding: 10px 20px;
+  padding: clamp(7px, 0.8vh, 10px) clamp(12px, 1.3vw, 20px);
   border-radius: 24px;
   cursor: pointer;
   backdrop-filter: blur(6px);
@@ -261,8 +273,8 @@
 .back-btn:hover { background: rgba(255, 255, 255, 0.12); }
 
 .nav-arrow {
-  width: 38px;
-  height: 38px;
+  width: clamp(30px, 2.8vw, 38px);
+  height: clamp(30px, 2.8vw, 38px);
   border-radius: 50%;
   background: rgba(30, 30, 30, 0.8);
   border: 1px solid rgba(255, 255, 255, 0.25);

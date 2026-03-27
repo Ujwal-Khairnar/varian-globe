@@ -15,9 +15,6 @@ import { POV_OVERVIEW, POV_DETAIL } from "../../utils/globe";
 function GlobeTab({ isActive, onZoomChange }) {
   const globeRef       = useRef();
   const animRef        = useRef();
-
-  // KEY FIX: keep activeIndex in a ref so goNext/goPrev
-  // callbacks always read the latest value without needing re-creation.
   const activeIndexRef = useRef(null);
 
   const [pov,         setPov]         = useState(POV_OVERVIEW);
@@ -25,7 +22,6 @@ function GlobeTab({ isActive, onZoomChange }) {
   const [cardVisible, setCardVisible] = useState(false);
   const [isZoomed,    setIsZoomed]    = useState(false);
 
-  // Keep ref in sync with state on every render
   activeIndexRef.current = activeIndex;
 
   // ── Initialise globe on mount ─────────────────────
@@ -48,12 +44,10 @@ function GlobeTab({ isActive, onZoomChange }) {
     return () => cancelAnimationFrame(animRef.current);
   }, []);
 
-  // ── Notify App.js whenever zoom state changes ─────
   useEffect(() => {
     if (onZoomChange) onZoomChange(isZoomed);
   }, [isZoomed, onZoomChange]);
 
-  // ── Register rotate toggle for Footer ─────────────
   useEffect(() => {
     if (isActive) {
       window.__globeRotateToggle = () => {
@@ -80,7 +74,7 @@ function GlobeTab({ isActive, onZoomChange }) {
     setCardVisible(false);
 
     setTimeout(() => setCardVisible(true), 1100);
-  }, []); // no deps — reads fresh values via globeRef + LOCATIONS constant
+  }, []);
 
   // ── Back to overview ──────────────────────────────
   const backToOverview = useCallback(() => {
@@ -100,8 +94,6 @@ function GlobeTab({ isActive, onZoomChange }) {
   }, []);
 
   // ── Navigate between pins ─────────────────────────
-  // KEY FIX: read from activeIndexRef.current (always fresh)
-  // instead of activeIndex (stale closure).
   const goNext = useCallback(() => {
     const current = activeIndexRef.current;
     if (current === null) return;
@@ -122,30 +114,28 @@ function GlobeTab({ isActive, onZoomChange }) {
 
   return (
     <>
-      {/* Hero headline */}
       <h1 className={`hero-title${isZoomed ? " hidden" : ""}`}>
         What your <br />
         peers have <br />
         achieved
       </h1>
 
-      {/* Globe canvas + pin overlay */}
+      {/* Pass isZoomed so GlobeView can resize + reposition */}
       <GlobeView
         globeRef={globeRef}
         pov={pov}
         activeIndex={activeIndex}
+        isZoomed={isZoomed}
         locations={LOCATIONS}
         onPinClick={zoomToPin}
       />
 
-      {/* Slide-in card */}
       <LocationCard
         location={activeLocation}
         visible={cardVisible}
         onClose={backToOverview}
       />
 
-      {/* Back / prev / next — only when zoomed */}
       {isZoomed && (
         <DetailNav
           onBack={backToOverview}
