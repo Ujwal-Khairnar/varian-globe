@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState, useCallback } from "react";
 import GlobeView from "./GlobeView";
 import LocationCard from "./LocationCard";
+import LocationDetail from "./LocationDetail";
 import DetailNav from "./DetailNav";
 import LOCATIONS from "../../data/locations";
 import { POV_OVERVIEW, POV_DETAIL } from "../../utils/globe";
@@ -17,10 +18,11 @@ function GlobeTab({ isActive, onZoomChange }) {
   const animRef        = useRef();
   const activeIndexRef = useRef(null);
 
-  const [pov,         setPov]         = useState(POV_OVERVIEW);
-  const [activeIndex, setActiveIndex] = useState(null);
-  const [cardVisible, setCardVisible] = useState(false);
-  const [isZoomed,    setIsZoomed]    = useState(false);
+  const [pov,           setPov]           = useState(POV_OVERVIEW);
+  const [activeIndex,   setActiveIndex]   = useState(null);
+  const [cardVisible,   setCardVisible]   = useState(false);
+  const [isZoomed,      setIsZoomed]      = useState(false);
+  const [detailLocation, setDetailLocation] = useState(null); // NEW
 
   activeIndexRef.current = activeIndex;
 
@@ -110,6 +112,17 @@ function GlobeTab({ isActive, onZoomChange }) {
     setTimeout(() => zoomToPin(prev), 280);
   }, [zoomToPin]);
 
+  // ── Show details ──────────────────────────────────
+  const handleShowDetails = useCallback(() => {
+    const current = activeIndexRef.current;
+    if (current === null) return;
+    setDetailLocation(LOCATIONS[current]);
+  }, []);
+
+  const handleCloseDetail = useCallback(() => {
+    setDetailLocation(null);
+  }, []);
+
   const activeLocation = activeIndex !== null ? LOCATIONS[activeIndex] : null;
 
   return (
@@ -134,6 +147,7 @@ function GlobeTab({ isActive, onZoomChange }) {
         location={activeLocation}
         visible={cardVisible}
         onClose={backToOverview}
+        onShowDetails={handleShowDetails}
       />
 
       {isZoomed && (
@@ -141,6 +155,14 @@ function GlobeTab({ isActive, onZoomChange }) {
           onBack={backToOverview}
           onPrev={goPrev}
           onNext={goNext}
+        />
+      )}
+
+      {/* Full-screen detail modal */}
+      {detailLocation && (
+        <LocationDetail
+          location={detailLocation}
+          onClose={handleCloseDetail}
         />
       )}
     </>

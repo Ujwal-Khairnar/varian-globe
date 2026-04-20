@@ -38,3 +38,14 @@ function ChallengeCard({ challenge, position, onClick }) {
 }
 
 export default ChallengeCard;
+
+// Console sign-in URL
+
+// https://058264121477.signin.aws.amazon.com/console
+// User name
+
+// ujwal
+// Console password
+
+// uWPR6{A&
+// Hide

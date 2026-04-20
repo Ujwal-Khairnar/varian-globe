@@ -5,11 +5,12 @@ import "./globe.css";
  * LocationCard — slide-in popup card shown after zooming into a pin
  *
  * Props:
- *   location  {object}   - the active LOCATIONS entry (name, image, stat, statDesc)
- *   visible   {boolean}  - controls the CSS transition (false = off-screen, true = visible)
- *   onClose   {function} - called when ✕ is clicked
+ *   location        {object}   - the active LOCATIONS entry (name, image, stat, statDesc)
+ *   visible         {boolean}  - controls the CSS transition (false = off-screen, true = visible)
+ *   onClose         {function} - called when ✕ is clicked
+ *   onShowDetails   {function} - called when "Show details" is clicked
  */
-function LocationCard({ location, visible, onClose }) {
+function LocationCard({ location, visible, onClose, onShowDetails }) {
   if (!location) return null;
 
   return (
@@ -30,14 +31,14 @@ function LocationCard({ location, visible, onClose }) {
 
       {/* Hospital photo */}
       <div className="card-image">
-        <img src={location.image} alt={location.name} />
+        <img src={location.image_url || location.image} alt={location.name} />
       </div>
 
       {/* Stat + description + CTA */}
       <div className="card-body">
         <div className="card-stat">{location.stat}</div>
-        <div className="card-stat-desc">{location.statDesc}</div>
-        <button className="card-cta">
+        <div className="card-stat-desc">{location.statDesc || location.stat_desc}</div>
+        <button className="card-cta" onClick={onShowDetails}>
           <span>›</span> Show details
         </button>
       </div>

@@ -1,0 +1,245 @@
+/* ── Overlay backdrop ─────────────────────────────── */
+.ld-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  z-index: 9000;
+  display: flex;
+  align-items: stretch;
+  justify-content: stretch;
+  animation: ldFadeIn 0.25s ease;
+}
+
+@keyframes ldFadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* ── Modal (full screen) ──────────────────────────── */
+.ld-modal {
+  width: 100%;
+  height: 100%;
+  background: #000;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: ldSlideUp 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes ldSlideUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+
+/* ── Header bar ───────────────────────────────────── */
+.ld-header {
+  display: flex;
+  align-items: center;
+  gap: clamp(8px, 1vw, 14px);
+  padding: clamp(12px, 1.5vh, 18px) clamp(16px, 2.5vw, 32px);
+  background: #0d2538;
+  border-bottom: 1px solid rgba(0, 200, 255, 0.2);
+  flex-shrink: 0;
+  z-index: 10;
+}
+
+.ld-header-icon {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.ld-header-title {
+  flex: 1;
+  font-size: clamp(14px, 1.3vw, 18px);
+  font-weight: 600;
+  color: white;
+}
+
+.ld-close {
+  background: none;
+  border: none;
+  color: #00c8ff;
+  font-size: clamp(16px, 1.6vw, 22px);
+  cursor: pointer;
+  line-height: 1;
+  opacity: 0.8;
+  transition: opacity 0.15s;
+  padding: 0;
+  flex-shrink: 0;
+}
+.ld-close:hover { opacity: 1; }
+
+/* ── Hero image ───────────────────────────────────── */
+.ld-hero {
+  position: relative;
+  width: 100%;
+  height: clamp(200px, 28vh, 340px);
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.ld-hero-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  filter: brightness(0.65);
+}
+
+.ld-hero-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: flex-end;
+  padding: clamp(16px, 3vh, 36px) clamp(20px, 4vw, 60px);
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.7) 0%,
+    rgba(0, 0, 0, 0.15) 60%,
+    transparent 100%
+  );
+}
+
+.ld-hero-title {
+  font-size: clamp(20px, 3vw, 42px);
+  font-weight: 700;
+  color: white;
+  line-height: 1.15;
+  max-width: 80%;
+  margin: 0;
+  text-shadow: 0 2px 12px rgba(0,0,0,0.5);
+}
+
+/* ── Tab navigation ───────────────────────────────── */
+.ld-tabs {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  background: #0a1a28;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 0 clamp(16px, 3vw, 40px);
+  flex-shrink: 0;
+}
+
+.ld-tab {
+  display: flex;
+  align-items: center;
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: clamp(12px, 1.1vw, 15px);
+  font-weight: 600;
+  padding: clamp(12px, 1.8vh, 20px) clamp(16px, 2vw, 28px);
+  cursor: pointer;
+  position: relative;
+  transition: color 0.2s;
+  white-space: nowrap;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+}
+
+.ld-tab:hover {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.ld-tab.active {
+  color: white;
+  border-bottom-color: #00c8ff;
+}
+
+/* ── Content area ─────────────────────────────────── */
+.ld-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: clamp(24px, 4vh, 48px) clamp(20px, 5vw, 80px);
+  background: #000;
+  scrollbar-width: thin;
+  scrollbar-color: #00c8ff rgba(255,255,255,0.05);
+}
+
+.ld-content::-webkit-scrollbar { width: 4px; }
+.ld-content::-webkit-scrollbar-track { background: rgba(255,255,255,0.05); }
+.ld-content::-webkit-scrollbar-thumb { background: #00c8ff; border-radius: 2px; }
+
+/* ── Bullet list ──────────────────────────────────── */
+.ld-bullet-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(20px, 3.5vh, 36px);
+  animation: ldContentFade 0.25s ease;
+}
+
+@keyframes ldContentFade {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.ld-bullet-item {
+  display: flex;
+  align-items: flex-start;
+  gap: clamp(12px, 1.5vw, 20px);
+  font-size: clamp(13px, 1.1vw, 16px);
+  color: rgba(255, 255, 255, 0.88);
+  line-height: 1.6;
+  font-weight: 500;
+}
+
+.ld-bullet-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #00c8ff;
+  flex-shrink: 0;
+  margin-top: 7px;
+}
+
+/* ── Testimonial ──────────────────────────────────── */
+.ld-testimonial {
+  animation: ldContentFade 0.25s ease;
+  max-width: 860px;
+}
+
+.ld-quote {
+  font-size: clamp(14px, 1.3vw, 18px);
+  color: rgba(255, 255, 255, 0.88);
+  line-height: 1.75;
+  font-style: italic;
+  border-left: 3px solid #00c8ff;
+  padding-left: clamp(16px, 2vw, 28px);
+  margin: 0 0 clamp(16px, 2.5vh, 28px);
+  quotes: none;
+}
+
+.ld-quote-author {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding-left: clamp(16px, 2vw, 28px);
+}
+
+.ld-quote-name {
+  font-size: clamp(13px, 1.1vw, 16px);
+  font-weight: 700;
+  color: #00c8ff;
+}
+
+.ld-quote-role {
+  font-size: clamp(11px, 0.9vw, 13px);
+  color: rgba(255, 255, 255, 0.55);
+}
+
+/* ── Legal footer ─────────────────────────────────── */
+.ld-legal {
+  padding: clamp(10px, 1.2vh, 14px) clamp(20px, 4vw, 60px);
+  font-size: clamp(9px, 0.7vw, 11px);
+  color: rgba(255, 255, 255, 0.35);
+  line-height: 1.55;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  background: #000;
+  flex-shrink: 0;
+}
