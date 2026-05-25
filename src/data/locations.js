@@ -39,6 +39,46 @@ const LOCATIONS = [
     stat: "135 fields",
     statDesc: "no longer need completion",
   },
+  {
+    lat: 13.08,
+    lng: 80.27,
+    name: "Apollo Cancer Centre, Chennai, India",
+    image: "https://images.unsplash.com/photo-1551076805-e1869033e561?w=400&q=80",
+    stat: "189 fields",
+    statDesc: "no longer need completion",
+  },
+  {
+    lat: 29.70,
+    lng: -95.39,
+    name: "MD Anderson Cancer Center, Houston, USA",
+    image: "https://images.unsplash.com/photo-1538108149393-fbbd81895907?w=400&q=80",
+    stat: "98% reduction",
+    statDesc: "in manual reporting time",
+  },
+  {
+    lat: 24.69,
+    lng: 46.72,
+    name: "King Faisal Specialist Hospital, Riyadh, Saudi Arabia",
+    image: "https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=400&q=80",
+    stat: "162 fields",
+    statDesc: "no longer need completion",
+  },
+  {
+    lat: -37.80,
+    lng: 144.97,
+    name: "Peter MacCallum Cancer Centre, Melbourne, Australia",
+    image: "https://images.unsplash.com/photo-1587351021759-3e566b6af7cc?w=400&q=80",
+    stat: "45% faster",
+    statDesc: "treatment plan generation",
+  },
+  {
+    lat: -33.94,
+    lng: 18.46,
+    name: "Groote Schuur Hospital, Cape Town, South Africa",
+    image: "https://images.unsplash.com/photo-1516549655169-df83a0774514?w=400&q=80",
+    stat: "30% reduction",
+    statDesc: "in patient wait times",
+  },
 ];
 
 export default LOCATIONS;
