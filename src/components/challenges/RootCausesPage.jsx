@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./RootCausesPage.css";
 
-function RootCausesPage({ challenge, rootCause, onBack, onShowSolutions }) {
+function RootCausesPage({ challenge, rootCause, onBack, onShowSolutions, onGoHome }) {
   const [selected, setSelected] = useState([]);
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
@@ -13,7 +13,7 @@ function RootCausesPage({ challenge, rootCause, onBack, onShowSolutions }) {
 
   return (
     <div className="rcp-scene">
-      {/* Sidebar Overlay (Preserved) */}
+      {/* Sidebar Overlay */}
       <div className={`rcp-overlay-sidebar ${sidebarOpen ? "open" : ""}`}>
         <div className="sidebar-inner-content">
           <div className="sidebar-header-branding">
@@ -26,19 +26,19 @@ function RootCausesPage({ challenge, rootCause, onBack, onShowSolutions }) {
             </div>
             <h3 className="sidebar-main-title">My challenge</h3>
           </div>
-          
+
           <div className="sidebar-body-text">
             <span className="blue-dot">•</span>
             <p>{challenge.text}</p>
           </div>
-          
+
           <button className="change-challenge-btn-final" onClick={onBack}>
-             <span className="arrow-back">←</span> Change challenge
+            <span className="arrow-back">←</span> Change challenge
           </button>
         </div>
 
         <div className="sidebar-close-trigger-circle" onClick={() => setSidebarOpen(false)}>
-           <span>❮</span>
+          <span>❮</span>
         </div>
       </div>
 
@@ -65,7 +65,8 @@ function RootCausesPage({ challenge, rootCause, onBack, onShowSolutions }) {
             <div className="bar"></div>
             <div className="bar"></div>
           </button>
-          <button className="rcp-home-trigger" onClick={onBack}>
+          {/* HOME button → goes to globe */}
+          <button className="rcp-home-trigger" onClick={onGoHome}>
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2">
               <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
             </svg>
@@ -73,16 +74,13 @@ function RootCausesPage({ challenge, rootCause, onBack, onShowSolutions }) {
         </div>
 
         <div className="rcp-floating-select">
-           <button 
-             className="select-causes-btn" 
-             disabled={selected.length === 0}
-             onClick={() => {
-                // If you want clicking this to trigger the next step:
-                if(selected.length > 0) onShowSolutions(selected);
-             }}
-           >
-             Select your causes <span className="arrow-circle">→</span>
-           </button>
+          <button
+            className="select-causes-btn"
+            disabled={selected.length === 0}
+            onClick={() => { if (selected.length > 0) onShowSolutions(selected); }}
+          >
+            Select your causes <span className="arrow-circle">→</span>
+          </button>
         </div>
       </div>
 
@@ -112,15 +110,14 @@ function RootCausesPage({ challenge, rootCause, onBack, onShowSolutions }) {
           )}
         </div>
 
-        {/* The Action Button is now explicitly inside this footer div */}
         <div className="rcp-bottom-actions">
-           <button 
-             className={`rcp-show-btn-v2-final ${selected.length > 0 ? "active" : ""}`}
-             disabled={selected.length === 0}
-             onClick={() => onShowSolutions(selected)}
-           >
-             Show solutions →
-           </button>
+          <button
+            className={`rcp-show-btn-v2-final ${selected.length > 0 ? "active" : ""}`}
+            disabled={selected.length === 0}
+            onClick={() => onShowSolutions(selected)}
+          >
+            Show solutions →
+          </button>
         </div>
       </div>
     </div>

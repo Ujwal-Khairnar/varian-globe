@@ -13,52 +13,38 @@ function ChallengesTab({ registerRotate, onScreenChange }) {
   const [relevantSolutionIds, setRelevantSolutionIds] = useState(null);
   const [activeSolutionIdx, setActiveSolutionIdx] = useState(null);
 
-  // ── API state ──
   const [challenges, setChallenges]   = useState([]);
   const [solutions, setSolutions]     = useState([]);
   const [loading, setLoading]         = useState(true);
   const [error, setError]             = useState(null);
   const [sessionId, setSessionId]     = useState(null);
 
-  // ── Fetch challenges on mount ──
   useEffect(() => {
     api.getChallenges()
-      .then((data) => {
-        setChallenges(data);
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.error('Failed to load challenges:', err);
-        setError('Failed to load challenges');
-        setLoading(false);
-      });
+      .then((data) => { setChallenges(data); setLoading(false); })
+      .catch((err) => { console.error('Failed to load challenges:', err); setError('Failed to load challenges'); setLoading(false); });
   }, []);
 
-  // ── Fetch all solutions on mount ──
   useEffect(() => {
     api.getSolutions()
       .then((data) => setSolutions(data))
       .catch((err) => console.error('Failed to load solutions:', err));
   }, []);
 
-  // ── Create session on mount ──
   useEffect(() => {
     api.createSession({})
       .then((data) => setSessionId(data.id))
       .catch((err) => console.error('Failed to create session:', err));
   }, []);
 
-  // ── Sync screen with parent ──
   useEffect(() => {
     if (onScreenChange) onScreenChange(screen);
   }, [screen, onScreenChange]);
 
-  // ── Display solutions (filtered or all) ──
   const displaySolutions = relevantSolutionIds
     ? solutions.filter((s) => relevantSolutionIds.includes(s.id))
     : solutions;
 
-  // ── Auto-rotate carousel ──
   useEffect(() => {
     if (screen !== "carousel" || challenges.length === 0) return;
     const id = setInterval(() => {
@@ -67,7 +53,6 @@ function ChallengesTab({ registerRotate, onScreenChange }) {
     return () => clearInterval(id);
   }, [screen, challenges.length]);
 
-  // ── Manual rotate ──
   useEffect(() => {
     if (registerRotate) {
       registerRotate(() => {
@@ -78,14 +63,12 @@ function ChallengesTab({ registerRotate, onScreenChange }) {
     }
   }, [registerRotate, screen, challenges.length]);
 
-  // ── 5-position carousel logic ──
   const getPosition = (i) => {
     const total = challenges.length;
     if (total === 0) return "hidden";
     let d = i - centerIndex;
     if (d > total / 2) d -= total;
     if (d < -total / 2) d += total;
-
     if (d === 0)  return "center";
     if (d === 1)  return "side1 right1";
     if (d === -1) return "side1 left1";
@@ -94,7 +77,6 @@ function ChallengesTab({ registerRotate, onScreenChange }) {
     return "hidden";
   };
 
-  // ── Challenge click handler ──
   const handleChallengeClick = (i, position) => {
     if (position === "center") {
       setCenterIndex(i);
@@ -105,19 +87,22 @@ function ChallengesTab({ registerRotate, onScreenChange }) {
     }
   };
 
-  // ── Show solutions after root cause selection ──
+  // ── Go home to globe ──
+  const handleGoHome = useCallback(() => {
+    setScreen("carousel");
+    setActiveChallengeIdx(null);
+    setRelevantSolutionIds(null);
+    setActiveSolutionIdx(null);
+    if (window.__goToGlobe) window.__goToGlobe();
+  }, []);
+
   const handleShowSolutions = useCallback((selectedCauseIndices) => {
     const challenge = challenges[activeChallengeIdx];
     if (!challenge) return;
-
-    // Get solution IDs from challenge's mapped solutions
     const solutionIds = challenge.solutions
       ? challenge.solutions.map((s) => s.id)
       : null;
-
     setRelevantSolutionIds(solutionIds);
-
-    // Update session with selected challenge
     if (sessionId) {
       const selectedCauses = selectedCauseIndices.map(
         (idx) => challenge.root_causes[idx]?.text || ''
@@ -127,21 +112,16 @@ function ChallengesTab({ registerRotate, onScreenChange }) {
         selected_causes: selectedCauses,
       }).catch((err) => console.error('Failed to update session:', err));
     }
-
     setScreen("solutions");
   }, [challenges, activeChallengeIdx, sessionId]);
 
-  // ── Solution select handler ──
   const handleSelectSolution = useCallback((solution) => {
     const idx = displaySolutions.findIndex((s) => s.id === solution.id);
     setActiveSolutionIdx(idx >= 0 ? idx : 0);
-
-    // Log solution view
     if (sessionId) {
       api.logSolutionView(solution.id, sessionId)
         .catch((err) => console.error('Failed to log view:', err));
     }
-
     setScreen("detail");
   }, [displaySolutions, sessionId]);
 
@@ -151,14 +131,12 @@ function ChallengesTab({ registerRotate, onScreenChange }) {
   const handlePrevSolution = () =>
     setActiveSolutionIdx((i) => (i - 1 + displaySolutions.length) % displaySolutions.length);
 
-  const handleCloseDetail    = () => { setActiveSolutionIdx(null); setScreen("solutions"); };
+  const handleCloseDetail      = () => { setActiveSolutionIdx(null); setScreen("solutions"); };
   const handleBackToRootCauses = () => setScreen("rootCauses");
   const handleBackToCarousel   = () => setScreen("carousel");
 
-  // ── Derived state ──
   const activeChallenge = activeChallengeIdx !== null ? challenges[activeChallengeIdx] : null;
 
-  // Build rootCause object from API data to match RootCausesPage props
   const activeRootCause = activeChallenge
     ? {
         title:   activeChallenge.text,
@@ -175,7 +153,6 @@ function ChallengesTab({ registerRotate, onScreenChange }) {
     ? displaySolutions[activeSolutionIdx]
     : null;
 
-  // ── Loading state ──
   if (loading) {
     return (
       <div className="challenges-scene" style={{ justifyContent: 'center', alignItems: 'center' }}>
@@ -184,15 +161,11 @@ function ChallengesTab({ registerRotate, onScreenChange }) {
     );
   }
 
-  // ── Error state ──
   if (error) {
     return (
       <div className="challenges-scene" style={{ justifyContent: 'center', alignItems: 'center' }}>
         <div style={{ color: '#ff4444', fontSize: '1.2rem' }}>{error}</div>
-        <button
-          onClick={() => window.location.reload()}
-          style={{ marginTop: 16, padding: '8px 24px', cursor: 'pointer' }}
-        >
+        <button onClick={() => window.location.reload()} style={{ marginTop: 16, padding: '8px 24px', cursor: 'pointer' }}>
           Retry
         </button>
       </div>
@@ -226,6 +199,7 @@ function ChallengesTab({ registerRotate, onScreenChange }) {
           rootCause={activeRootCause}
           onBack={handleBackToCarousel}
           onShowSolutions={handleShowSolutions}
+          onGoHome={handleGoHome}
         />
       )}
 
@@ -234,6 +208,7 @@ function ChallengesTab({ registerRotate, onScreenChange }) {
           solutionIds={relevantSolutionIds}
           onSelect={handleSelectSolution}
           onBack={handleBackToRootCauses}
+          onGoHome={handleGoHome}
         />
       )}
 

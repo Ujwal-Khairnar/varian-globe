@@ -3,20 +3,7 @@ import SOLUTIONS from "../../data/solutions";
 import SolutionIcon from "./SolutionIcon";
 import "./SolutionsGrid.css";
 
-/**
- * SolutionsGrid — the Solutions page showing all relevant solution cards
- *
- * Props:
- *   solutionIds  {string[]}  - which solution IDs to show (filtered by root cause)
- *   onSelect     {function}  - called with solution object when a card is clicked
- *   onBack       {function}  - go back to root causes
- */
-function SolutionsGrid({ solutionIds, onSelect, onBack }) {
-  // Filter to only solutions relevant to this challenge, maintain order
-  const filtered = solutionIds
-    ? SOLUTIONS.filter((s) => solutionIds.includes(s.id))
-    : SOLUTIONS;
-
+function SolutionsGrid({ solutionIds, onSelect, onBack, onGoHome }) {
   return (
     <div className="sg-scene">
 
@@ -47,7 +34,6 @@ function SolutionsGrid({ solutionIds, onSelect, onBack }) {
           ))}
         </div>
 
-        {/* Scroll track indicator */}
         <div className="sg-scroll-track">
           <div className="sg-scroll-thumb" />
         </div>
@@ -56,9 +42,10 @@ function SolutionsGrid({ solutionIds, onSelect, onBack }) {
       {/* Legal footer */}
       <div className="sg-legal">
         <div className="sg-legal-nav">
-          <button className="sg-icon-btn" onClick={onBack} title="Back">
-            <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
-              <path d="M11 2L3 10h2.5v10h6v-6h3v6h6V10H23L11 2z" stroke="white" strokeWidth="1.5" strokeLinejoin="round"/>
+          {/* HOME button → goes to globe */}
+          <button className="sg-icon-btn" onClick={onGoHome} title="Home">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2">
+              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
             </svg>
           </button>
         </div>

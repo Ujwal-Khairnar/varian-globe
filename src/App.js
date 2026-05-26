@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import Branding from "./components/Branding";
 import Footer from "./components/Footer";
 import GlobeTab from "./components/globe/GlobeTab";
@@ -8,7 +8,6 @@ import "./App.css";
 function App() {
   const [activeTab, setActiveTab] = useState(0);
   const [isGlobeZoomed, setIsGlobeZoomed] = useState(false);
-  // NEW: Track if we are in Root Causes or deeper to hide Footer/Branding
   const [isChallengeDetailOpen, setIsChallengeDetailOpen] = useState(false);
   const rotateRef = useRef(null);
 
@@ -27,12 +26,19 @@ function App() {
     }
   };
 
-  // Hide UI if Globe is zoomed OR if Challenges is past the carousel screen
+  // Register global go-to-globe function
+  useEffect(() => {
+    window.__goToGlobe = () => {
+      setActiveTab(0);
+      setIsGlobeZoomed(false);
+      setIsChallengeDetailOpen(false);
+    };
+  }, []);
+
   const shouldHideGlobalUI = (activeTab === 0 && isGlobeZoomed) || (activeTab === 1 && isChallengeDetailOpen);
 
   return (
     <div className="app-container">
-      {/* Conditionally render Global Branding */}
       {!shouldHideGlobalUI && <Branding />}
 
       {activeTab === 0 && (
@@ -42,12 +48,10 @@ function App() {
       {activeTab === 1 && (
         <ChallengesTab
           registerRotate={(fn) => { rotateRef.current = fn; }}
-          // Sync internal screen state to hide footer
           onScreenChange={(screen) => setIsChallengeDetailOpen(screen !== "carousel")}
         />
       )}
 
-      {/* Footer hides when shouldHideGlobalUI is true */}
       <Footer
         activeTab={activeTab}
         onTabChange={handleTabChange}
